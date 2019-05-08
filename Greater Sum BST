@@ -1,0 +1,21 @@
+void util(Node* root,int *sum)
+{
+    if(root==NULL)
+        return;
+    util(root->right,sum);
+    
+    *sum += root->data;
+    root->data = *sum;
+    
+    util(root->left,sum);
+}
+
+void modify(Node **root)
+{
+    int sum = 0;
+    util(*root,&sum);
+}
+
+/* In this program, the task is to find the sum of all nodes greater than equal to a node and replace the sum with the number itself. 
+  The approach is to to do reverse inorder traversal and keep adding the sum. In this way, the last node(greatest) will have only sum of itself while
+   the first(smallest) node will end up being replaced by sum of all nodes in the BST.*/
