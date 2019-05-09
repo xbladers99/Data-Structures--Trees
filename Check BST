@@ -1,0 +1,16 @@
+/* This is a program to check if a binary tree is BST or not. 
+  we use a util function and use the range method */
+
+int isBSTUtil(Node* root,int min,int max)
+{
+    if(root==NULL)
+        return 1;
+    if(root->data < min || root->data > max)
+        return 0;
+    return isBSTUtil(root->left,min,root->data-1) && 
+            isBSTUtil(root->right,root->data+1,max);
+}
+
+bool isBST(Node* root) {
+    return isBSTUtil(root,INT_MIN,INT_MAX);
+}
