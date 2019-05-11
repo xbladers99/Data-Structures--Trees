@@ -1,0 +1,86 @@
+void print(Node* root)
+{
+    if(root==NULL)
+        return;
+    print(root->left);
+    cout<<root->data<<" ";
+    print(root->right);
+}
+
+void inorder(Node* root1,Node* root2)
+{
+    stack<Node*> s1,s2;
+    Node *curr1 = root1,*curr2 = root2;
+    if(root1==NULL)
+    {
+        print(root2);
+        return;
+    }
+    if(root2==NULL)
+    {
+        print(root1);
+        return;
+    }
+    while((curr1 !=NULL || !s1.empty()) || (curr2!=NULL || !s2.empty()))
+    {
+        if(curr1!=NULL || curr2!=NULL)
+        {
+            if(curr1!=NULL)
+            {
+                s1.push(curr1);
+                curr1 = curr1->left;
+            }
+            if(curr2!=NULL)
+            {
+                s2.push(curr2);
+                curr2 = curr2->left;
+            }
+        }
+        else
+        {
+            if(s1.empty())
+            {
+                while(!s2.empty())
+                {
+                    curr2 = s2.top();   s2.pop();
+                    curr2->left = NULL;
+                    print(curr2);
+                }
+                return;
+            }
+            if(s2.empty())
+            {
+                while(!s1.empty())
+                {
+                    curr1 = s1.top();   s1.pop();
+                    curr1->left = NULL;
+                    print(curr1);
+                }
+                return;
+            }
+            
+            curr1 = s1.top();   s1.pop();
+            curr2 = s2.top();   s2.pop();
+            
+            if(curr1->data <= curr2->data)
+            {
+                cout<<curr1->data<<" ";
+                curr1 = curr1->right;
+                s2.push(curr2);
+                curr2 = NULL;
+            }
+            else
+            {
+                cout<<curr2->data<<" ";
+                curr2 = curr2->right;
+                s1.push(curr1);
+                curr1 = NULL;
+            }
+        }
+    }
+}
+
+void merge(Node *root1, Node *root2)
+{
+    inorder(root1,root2);
+}
