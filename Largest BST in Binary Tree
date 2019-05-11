@@ -1,0 +1,43 @@
+bool isBSTUtil(Node* root,int min,int max)
+{
+    if(root==NULL)
+        return true;
+    bool t = true;
+    if(root->data < min || root->data > max)
+        t = false;
+    return t && isBSTUtil(root->left,min,root->data) &&
+                isBSTUtil(root->right,root->data,max);
+}
+
+int size(Node* root)
+{
+    if(root==NULL)
+        return 0;
+    return 1 + size(root->left) + size(root->right);
+}
+
+int m = INT_MIN;
+
+void inorder1(Node* root)
+{
+    
+    if(root==NULL)
+        return;
+    inorder1(root->left);
+    if(isBSTUtil(root,INT_MIN,INT_MAX))
+        if(m < size(root))
+            m = size(root);
+    
+    inorder1(root->right);
+}
+
+int largestBst(Node *root)
+{
+	inorder1(root);
+	int p = m;
+	m = INT_MIN;
+	if(p == INT_MIN)
+	    return 0;
+	return p;
+	
+}
