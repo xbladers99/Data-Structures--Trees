@@ -1,0 +1,62 @@
+/* Given a preorder sequqnce of a BST, to find its postorder sequence. */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// void PretoPost(int arr[],int n)
+// {
+//     int i;
+//     stack<int> s;
+//     int root = INT_MIN;
+//     s.push(arr[0]);
+//     for(i=1;i<n;i++)
+//     {
+//         if(arr[i] < s.top())
+//         {
+//             root = s.top();
+//             s.push(arr[i]);
+//             continue;
+//         }
+//         if(arr[i] > s.top() && arr[i]<root)
+//         {
+//             s.push(arr[i]);
+//         }
+//         if(arr[i] > root)
+//         {
+//             cout<<s.top()<<" ";
+//             s.pop();
+//             s.push(arr[i]);
+//         }
+//     }
+// }
+
+void PretoPost(int arr[],int n,int &i,int min,int max)
+{
+    if(i == n)
+        return;
+    if(arr[i] < min || arr[i] > max)
+        return;
+    int val = arr[i];
+    i++;
+    PretoPost(arr,n,i,min,val);
+    PretoPost(arr,n,i,val,max);
+    cout<<val<<" ";
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int *arr = new int[n];
+        for(int i=0;i<n;i++)    
+            cin>>arr[i];
+        int i = 0;
+        PretoPost(arr,n,i,INT_MIN,INT_MAX);
+        cout<<endl;
+    }
+	return 0;
+}
