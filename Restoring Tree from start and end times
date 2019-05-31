@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+	int index,start,end;
+};
+
+bool compare(node &a,node &b)
+{
+	return a.start < b.start;
+}
+
+int main()
+{
+	int n,i;
+	cin>>n;
+	node arr[n];
+	for(i=0;i<n;i++)
+	{
+		int a;
+		cin>>a;
+		arr[i].start = a;
+		arr[i].index = i+1;
+	}
+	for(i=0;i<n;i++)
+	{
+		int a;
+		cin>>a;
+		arr[i].end = a;
+	}
+	std::stack<node> s;
+	int parent[n+1];
+	sort(arr,arr+n,compare);
+	
+	s.push(arr[0]);
+	parent[arr[0].index] = 0;
+	i = 1;
+	
+	for(i=1;i<n;i++)
+	{
+		node temp = arr[i];
+		if(temp.start + 1 < temp.end)
+		{
+			parent[temp.index] = s.top().index;
+			s.push(temp);
+		}
+		else
+		{
+			node a = s.top();
+			parent[temp.index] = a.index;
+			while(!s.empty() && temp.end == s.top().end)
+				s.pop();
+		}
+	}
+	for(i=1;i<=n;i++)
+		cout<<parent[i]<<" ";
+}
+//sample input:
+//8
+//2 5 3 6 4 0 1 7
+//3 8 5 8 5 8 5 8
