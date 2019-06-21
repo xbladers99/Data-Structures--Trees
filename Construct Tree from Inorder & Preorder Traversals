@@ -1,0 +1,28 @@
+Node* buildTreeUtil(int in[],int pre[], int &preIndex, int inStrt, int inEnd, unordered_map<int,int> &map)
+{
+    //static int preIndex = 0;  
+  
+    if (inStrt > inEnd)  
+        return NULL;  
+    int x = pre[preIndex++];
+    
+    Node *root = newNode(x);
+    if (inStrt == inEnd)  
+        return root;  
+    int pivot = map[x];
+    root->left = buildTreeUtil(in,pre,preIndex,inStrt, pivot - 1,map);
+    root->right = buildTreeUtil(in,pre,preIndex,pivot + 1,inEnd,map);
+    
+    return root;
+}
+
+Node* buildTree(int in[],int pre[], int inStrt, int inEnd)
+{
+    unordered_map<int,int> map;
+    for(int i= inStrt;i <= inEnd;i++)
+        map[in[i]] = i;
+    
+    int preIndex = 0;
+    Node* root = buildTreeUtil(in, pre, preIndex, inStrt, inEnd, map);
+    return root;
+}
