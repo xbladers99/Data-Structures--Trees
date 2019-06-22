@@ -1,0 +1,21 @@
+int MPS(struct Node *root, int& res)
+{
+    if(root == NULL)
+        return 0;
+    
+    int left = MPS(root->left, res);
+    int right = MPS(root->right, res);
+    
+    int maxlr = max(left, right);
+    int maxsingle = max(root->data, root->data + maxlr);
+    int maxall = max(maxsingle, root->data + left + right);
+    res = max(res, maxall);
+    
+    return maxsingle;
+}
+int maxPathSum(struct Node *root)
+{
+    int res = 0;
+    MPS(root, res);
+    return res;
+}
