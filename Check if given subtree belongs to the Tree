@@ -1,0 +1,32 @@
+
+bool match(Node* root1, Node* root2)
+{
+    if(root1 == NULL && root2 == NULL)
+        return true;
+    if((root1 != NULL && root2 == NULL) || (root1 == NULL && root2 != NULL))
+        return false;
+    
+    if( root1->data != root2->data || !match(root1->left,root2->left) || !match(root1->right,root2->right))
+        return false;
+    
+    return true;
+}
+bool find(Node* root1, Node* root2)
+{
+    if(root1 == NULL)
+        return false;
+        
+    if(root1->data == root2->data)
+    {
+        return match(root1, root2);
+    }
+    
+    if(find(root1->left,root2) || find(root1->right,root2)) 
+        return true;
+    return false;
+}
+
+bool isSubtree(Node* T1, Node* T2) 
+{
+    return find(T1,T2);
+}
