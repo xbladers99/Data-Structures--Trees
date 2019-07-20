@@ -1,0 +1,46 @@
+void printkdistanceNodeDown(node *root, int k)
+{
+    if(root ==  NULL)
+        return;
+    if(k == 0)
+    {
+        cout<<root->data<<" ";
+        return;
+    }
+    printkdistanceNodeDown(root->left,k-1);
+    printkdistanceNodeDown(root->right,k-1);
+}
+
+int printkdistanceNode(node* root, node* target , int k)
+{
+    if(root == NULL)
+        return 0;
+    if(root == target)
+    {
+        printkdistanceNodeDown(root, k);
+        return 1;
+    }
+    int left = printkdistanceNode(root->left,target,k);
+    if(left != 0)
+    {
+        if(left == k)
+            cout<<root->data<<" ";
+        else
+            printkdistanceNodeDown(root->right, k - left - 1);
+        
+        return 1 + left;
+    }
+
+    
+    int right = printkdistanceNode(root->right,target,k);
+    if(right != 0)
+    {
+        if(right == k)
+            cout<<root->data<<" ";
+        else
+            printkdistanceNodeDown(root->left,k - right - 1);
+        return 1 + right;
+    }
+    
+    return 0;    
+}
